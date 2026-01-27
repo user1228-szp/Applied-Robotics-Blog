@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Applied Robotics Blog</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Applied Robotics Blog</h1>
+    <p>Academic Portfolio</p>
+    <p><strong>Student:</strong> Carlos Sebastián Eugenio Reyes</p>
+    <p><strong>Professor:</strong> Oliver Ochoa García</p>
+    <p><strong>Degree:</strong> Mechatronics Engineering</p>
+    <p><strong>Course:</strong> Applied Robotics</p>
+
+    <button id="darkToggle" class="dark-toggle">Dark</button>
+  </header>
+
+  <main>
+    <section>
+      <h2>Course Description</h2>
+      <p>
+        This course provides an overview of robot mechanisms, dynamics, and intelligent
+        control systems. Topics include planar and spatial kinematics, motion planning,
+        mechanism design for manipulators and mobile robots, multi-rigid-body dynamics,
+        3D graphical simulation, control design, actuators and sensors, wireless networking,
+        task modeling, human–machine interfaces, and embedded software.
+      </p>
+    </section>
+
+    <section>
+      <h2>Course Reports</h2>
+
+      <div class="robot-grid">
+
+        <article class="robot-card">
+          <h3>Task 1 – Robots in Applied Robotics</h3>
+            <p>
+              Different types of robots are used in applied robotics. These robots are commonly classified as
+              Cartesian, Cylindrical, Spherical (Polar), Articulated, SCARA, and Delta robots.
+            </p>
+          <img src="assets/images/robots_Tarea_1/portada.jpg" alt="Task 1 Robot" />
+          <a class="info-btn" href="activities\Tarea_1.html">View Report</a>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Applied Robotics Blog</p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById("darkToggle");
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      toggle.textContent = document.body.classList.contains("dark") ? "Light" : "Dark";
+    });
+
+    const cards = document.querySelectorAll('.robot-card');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(card => observer.observe(card));
+  </script>
+
+</body>
+
+</html>

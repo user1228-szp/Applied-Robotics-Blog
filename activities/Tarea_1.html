@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task 1 – Robots</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+        <button id="darkToggle" class="dark-toggle">Dark</button>
+    </header>
+
+    <button id="darkToggle" class="dark-toggle">Dark </button>
+
+    <h1>Task 1 – Robots in Applied Robotics</h1>
+
+    <div class="robot-counter">
+        <h2>Robot Types Overview</h2>
+        <p>Total types of robots: <strong id="robotCount">0</strong></p>
+    </div>
+
+    <p>
+        Different types of robots are used in applied robotics. These robots are commonly classified as
+        Cartesian, Cylindrical, Spherical (Polar), Articulated, SCARA, and Delta robots.
+    </p>
+
+    <section class="robot-summary">
+        <h2>Robot Types Summary</h2>
+    
+        <table class="robot-table">
+            <thead>
+                <tr>
+                    <th>Robot Type</th>
+                    <th>Joint Configuration</th>
+                    <th>Workspace Shape</th>
+                    <th>Main Advantages</th>
+                    <th>Common Applications</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cartesian</td>
+                    <td>PPP</td>
+                    <td>Rectangular</td>
+                    <td>High accuracy, simple kinematics</td>
+                    <td>CNC, 3D printing, Pick & Place</td>
+                </tr>
+                <tr>
+                    <td>SCARA</td>
+                    <td>RRP</td>
+                    <td>Cylindrical / Annular</td>
+                    <td>High speed, high repeatability</td>
+                    <td>Assembly, electronics, packaging</td>
+                </tr>
+                <tr>
+                    <td>Cylindrical</td>
+                    <td>RPP</td>
+                    <td>Cylindrical</td>
+                    <td>Simple design, easy control</td>
+                    <td>Assembly, palletizing</td>
+                </tr>
+                <tr>
+                    <td>Articulated</td>
+                    <td>RRR</td>
+                    <td>Irregular / Spherical</td>
+                    <td>Very flexible, large workspace</td>
+                    <td>Welding, painting, handling</td>
+                </tr>
+                <tr>
+                    <td>Spherical</td>
+                    <td>RRP</td>
+                    <td>Spherical sector</td>
+                    <td>Good reach, simple structure</td>
+                    <td>Machine loading, handling</td>
+                </tr>
+                <tr>
+                    <td>Delta (Parallel)</td>
+                    <td>Parallel</td>
+                    <td>Truncated cone</td>
+                    <td>Very high speed and precision</td>
+                    <td>High-speed pick & place</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <div class="robot-grid">
+
+        <section class="robot-card">
+            <span class="badge">PPP</span>
+            <h3>Cartesian Robots</h3>
+            <p>
+                Cartesian robots (PPP) are industrial manipulators that move along three mutually perpendicular linear axes (X, Y,
+                and Z). Each axis uses a prismatic joint, which results in simple kinematics and high positioning accuracy. Their
+                workspace has a rectangular or box-like shape, making them easy to program and control. Due to their rigidity and precision,
+                Cartesian robots are commonly used in CNC machines, 3D printers, pick-and-place systems, and automated inspection
+                tasks.
+            </p>
+            <img src="C:\Users\carlo\Downloads\meca\Robotica\blog\assets\images\robots_Tarea_1\PPP.jpg">
+            <a class="info-btn"
+                href="https://www.mwes.com/types-of-industrial-robots/cartesian-gantry-rectilinear-robots/"
+                target="_blank">More information</a>
+        </section>
+
+        <section class="robot-card">
+            <span class="badge">RRP</span>
+            <h3>SCARA Robots</h3>
+            <p> SCARA robots (Selective Compliance Assembly Robot Arm) consist of two rotational joints followed by one prismatic
+                joint. This configuration provides compliance in the horizontal plane and rigidity in the vertical direction. SCARA robots
+                are well known for their speed, repeatability, and efficiency in assembly operations. They are widely used in
+                electronics manufacturing, packaging, and small-part insertion tasks. 
+            </p>
+                <img src="C:\Users\carlo\Downloads\meca\Robotica\blog\assets\images\robots_Tarea_1\RRP.png">
+            <a class="info-btn" href="https://www.tmrobotics.com/what-are-the-different-types-of-industrial-robot/"
+                target="_blank">More information</a>
+        </section>
+
+        <section class="robot-card">
+            <span class="badge">RPP</span>
+            <h3>Cylindrical Robots</h3>
+            <p>
+                Cylindrical robots (RPP) consist of one rotational joint at the base followed by two prismatic joints. This
+                configuration produces a cylindrical-shaped workspace. Cylindrical robots are valued for their straightforward
+                mechanical design and ease of control. They are commonly used in assembly, handling, and palletizing applications
+                where
+                vertical and radial motions are required.
+            </p>
+            <img src="C:\Users\carlo\Downloads\meca\Robotica\blog\assets\images\robots_Tarea_1\RPP.jpg">
+            <a class="info-btn" href="https://www.automate.org/products/cylindrical" target="_blank">More
+                information</a>
+        </section>
+
+        <section class="robot-card">
+            <span class="badge">RRR</span>
+            <h3>Articulated Robots</h3>
+            <p>
+                Articulated robots (RRR) are composed of three or more rotational joints arranged similarly to a human arm. This
+                structure provides a wide range of motion and high flexibility, allowing the robot to reach complex positions and
+                orientations. Articulated robots commonly have six degrees of freedom, enabling full control of the end-effector
+                pose.
+                They are extensively used in welding, painting, material handling, assembly, and collaborative robotics
+                applications.
+            </p>
+            <img src="C:\Users\carlo\Downloads\meca\Robotica\blog\assets\images\robots_Tarea_1\RRR.jpg">
+            <a class="info-btn" href="https://www.laxmiusedmachine.com/prodotto/robot-rrr-robotica-atom-10/"
+                target="_blank">More information</a>
+        </section>
+
+        <section class="robot-card">
+            <span class="badge">RRP</span>
+            <h3>Spherical Robots</h3>
+            <p>
+                Spherical robots (RRP) use two rotational joints and one prismatic joint, creating a spherical or polar workspace.
+                The arm can rotate around a base and extend outward radially, allowing access to different depths and heights. These
+                robots were widely used in early industrial automation and are still relevant for material handling and machine loading
+                tasks.
+                Their mechanical structure is relatively simple, but their flexibility is limited compared to articulated robots.
+            </p>
+            <img src="C:\Users\carlo\Downloads\meca\Robotica\blog\assets\images\robots_Tarea_1\RRP.jpg">
+            <a class="info-btn" href="https://www.mwes.com/types-of-industrial-robots/polar-spherical-robots/"
+                target="_blank">More information</a>
+        </section>
+
+        <section class="robot-card">
+            <span class="badge">Parallel</span>
+            <h3>Delta Robots</h3>
+            <p>
+                Delta robots, also known as parallel robots, are composed of multiple arms connected in parallel between a fixed
+                base and a moving platform. This design results in very low moving mass, enabling extremely high speed and acceleration.
+                Delta robots offer excellent precision and repeatability, making them ideal for high-speed pick-and-place operations
+                in the food, pharmaceutical, and electronics industries. However, their workspace and payload capacity are limited.
+            </p>
+            <img src="C:\Users\carlo\Downloads\meca\Robotica\blog\assets\images\robots_Tarea_1\Parallel.jpg">
+            <a class="info-btn" href="https://www.rprobotic.com/products/bat1300-s6-delta-parallel-robot/"
+                target="_blank">More information</a>
+        </section>
+
+    </div>
+
+    <a class="back-link" href="../index.html">Back</a>
+
+    <script>
+        const cards = document.querySelectorAll('.robot-card');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('show');
+            });
+        }, { threshold: 0.2 });
+        cards.forEach(card => observer.observe(card));
+
+        let count = 0;
+        const target = 6;
+        const counter = document.getElementById("robotCount");
+        const interval = setInterval(() => {
+            count++;
+            counter.textContent = count;
+            if (count === target) clearInterval(interval);
+        }, 150);
+
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark") ? "Light" : "Night";
+        });
+    </script>
+</main>
+
+<footer>
+    <p>Robótica Aplicada</p>
+</footer>
+
+</body>
+
+</html>
