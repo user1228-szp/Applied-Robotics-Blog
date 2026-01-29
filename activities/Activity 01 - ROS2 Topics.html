@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Activity 01 - ROS2 Topics</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+        <button id="darkToggle" class="dark-toggle">Dark</button>
+    </header>
+
+    <main>
+        <h1>Activity 01 - ROS2 Topics</h1>
+
+        <p class="task-description">
+            You’ll create 2 nodes from scratch. In the first one you’ll have
+            <strong>1 publisher</strong>, and in the second one,
+            <strong>1 publisher & 1 subscriber</strong>.
+        </p>
+        <section class="task-instructions">
+            <h2 class="instructions-title">Instructions</h2>
+            <p>
+            You’ll create <strong>2 nodes</strong> from scratch.  
+                In the first one you’ll have <strong>1 publisher</strong>,  
+                and in the second one, <strong>1 publisher & 1 subscriber</strong>.
+            </p>
+
+            <ul>
+                <li>
+                    The <strong>number_publisher</strong> node publishes a number
+                    (always the same) on the <code>/number</code> topic, using the
+                    <code>example_interfaces/msg/Int64</code> type.
+                </li>
+
+                <li>
+                    The <strong>number_counter</strong> node subscribes to the
+                    <code>/number</code> topic and keeps a counter variable. Every
+                    received number is added to the counter, which is then published
+                    on the <code>/number_count</code> topic.
+                </li>
+            </ul>
+
+            <p><strong>A few hints:</strong></p>
+
+            <ul>
+                <li>
+                    Use <code>ros2 interface show example_interfaces/msg/Int64</code>
+                    to check the message structure.
+                </li>
+
+                <li>
+                    Recommended order: first create the
+                    <strong>number_publisher</strong>, verify it with
+                    <code>ros2 topic</code>, then create the
+                    <strong>number_counter</strong> subscriber, and finally its publisher.
+                </li>
+
+                <li>
+                    In the <strong>number_counter</strong> node, the publisher sends
+                    messages directly from the subscriber callback.
+                </li>
+            </ul>
+        </section>
+
+        <section class="tabs-container">
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab1">Publisher</button>
+                <button class="tab-btn" data-tab="tab2">Pub / Sub</button>
+                <button class="tab-btn" data-tab="tab3">Listener</button>
+                <button class="tab-btn" data-tab="tab4">Final Result</button>
+            </div>
+
+            <div class="tab-content active" id="tab1">
+                <h3>Publisher Node Execution</h3>
+                <p>
+                    Terminal showing the execution of the ROS2 publisher node,
+                    sending messages through a topic.
+                </p>
+                <button class="code-toggle">Show Code</button>
+                    <div class="code-wrapper">
+                        <pre class="code-block">
+                            <code class="language-python">
+                    import rclpy
+                    from rclpy.node import Node
+                    from example_interfaces.msg import Int64
+
+                    class NumberPublisher(Node):
+                        def __init__(self):
+                            super().__init__("publisher")
+                            self.publisher_ = self.create_publisher(Int64, "/number", 10)
+                            self.timer_ = self.create_timer(1.0, self.timer_callback)
+                            self.number = 2
+                            self.get_logger().info("Started")
+
+                        def timer_callback(self):
+                            msg = Int64()
+                            msg.data = self.number
+                            self.publisher_.publish(msg)
+                            self.get_logger().info(f"Publishing: {msg.data}")
+
+                    def main(args=None):
+                        rclpy.init(args=args)
+                        node = NumberPublisher()
+                        rclpy.spin(node)
+                        rclpy.shutdown()
+
+                    if __name__ == "__main__":
+                        main()
+                            </code>
+                        </pre>
+                        <button class="copy-btn">Copy Code</button>
+                    </div>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_1/Publisher.PNG" alt="Publisher Terminal">
+            </div>
+
+            <div class="tab-content" id="tab2">
+                <h3>Publisher & Subscriber Node</h3>
+                <p>
+                    This terminal shows a node publishing and subscribing simultaneously,
+                    validating ROS2 topic communication.
+                </p>
+                <button class="code-toggle">Show Code</button>
+                    <div class="code-wrapper">
+                        <pre class="code-block">
+                            <code class="language-python">
+                    import rclpy
+                    from rclpy.node 
+                    import Node
+                    from example_interfaces.msg import Int64
+
+                    class NumberCounter(Node):
+                        def __init__(self):
+                            super().__init__("other_node_publisher")
+                            self.counter = 0
+                            self.subscription = self.create_subscription(
+                                Int64,
+                                "/number",
+                                self.number_callback,
+                                10
+                            )
+
+                            self.publisher_ = self.create_publisher(
+                                Int64,
+                                "/number_count",
+                                10
+                            )
+
+                            self.get_logger().info("Listener & publisher node started")
+
+                        def number_callback(self, msg):
+                            self.counter += msg.data
+                            out_msg = Int64()
+                            out_msg.data = self.counter
+                            self.publisher_.publish(out_msg)
+
+                            self.get_logger().info(
+                                f"Received: {msg.data} | Counter: {self.counter}"
+                            )
+
+                    def main(args=None):
+                        rclpy.init(args=args)
+                        node = NumberCounter()
+                        rclpy.spin(node)
+                        rclpy.shutdown()
+
+                    if __name__ == "__main__":
+                        main()
+
+                            </code>
+                        </pre>
+                        <button class="copy-btn">Copy Code</button>
+                    </div>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_1/2nd_publisher_&_listener.PNG" alt="Second Terminal">
+            </div>
+
+            <div class="tab-content" id="tab3">
+                <h3>Listener Node Execution</h3>
+                <p>
+                    This terminal shows a listener node receiving constantly the data from the counter,
+                    validating ROS2 topic communication.
+                </p>
+                <button class="code-toggle">Show Code</button>
+                    <div class="code-wrapper">
+                        <pre class="code-block">
+                            <code class="language-python">
+                    In terminal: ros2 topic echo /number_count
+                            </code>
+                        </pre>
+                        <button class="copy-btn">Copy Code</button>
+                    </div>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_1/listener.PNG" alt="Second Terminal">
+            </div>
+
+            <div class="tab-content" id="tab4">
+                <h3>Final Communication Process</h3>
+                <p>
+                    Final system behavior showing active communication between ROS2 nodes, also present the flow wach node folow.
+                </p>
+                <button class="code-toggle">Show Code</button>
+                    <div class="code-wrapper">
+                        <pre class="code-block">
+                            <code class="language-python">
+                     In terminal: rqt_graph
+                            </code>
+                        </pre>
+                        <button class="copy-btn">Copy Code</button>
+                    </div>
+                 <img src="/Applied-Robotics-Blog/assets/images/Activity_1/result.PNG" alt="Final Process">
+            </div>
+
+        </section>
+
+        <a class="back-link" href="../index.html">Back</a>
+    </main>
+
+    <footer>
+        <p>Applied Robotics</p>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark")
+                ? "Light"
+                : "Dark";
+        });
+
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabButtons.forEach(b => b.classList.remove("active"));
+                tabContents.forEach(c => c.classList.remove("active"));
+
+                btn.classList.add("active");
+                document.getElementById(btn.dataset.tab)
+                    .classList.add("active");
+            });
+        });
+
+    document.querySelectorAll(".code-toggle").forEach(button => {
+        button.addEventListener("click", () => {
+            const wrapper = button.nextElementSibling;
+
+                if (wrapper.style.display === "block") {
+                    wrapper.style.display = "none";
+                    button.textContent = "Show Code";
+                } else {
+                    wrapper.style.display = "block";
+                    button.textContent = "Hide Code";
+                }
+            });
+        });
+
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code);
+                btn.textContent = "Copied";
+                setTimeout(() => (btn.textContent = "Copy Code"), 1500);
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+
+</body>
+</html>
+
