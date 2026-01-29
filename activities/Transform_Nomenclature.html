@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task 2 - Transform Nomenclature</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+        <button id="darkToggle" class="dark-toggle">Dark</button>
+    </header>
+
+    <main>
+        <h1 class="page-title">Task 2 – Transform Nomenclature</h1>
+        <p class="task-description center">
+            This task consists of three exercises focused on understanding
+            transformation nomenclature and frame relationships using MATLAB.
+        </p>
+
+
+        <section class="exercise-card">
+            <button class="exercise-toggle">
+                Exercise 1 – Vector rotated <span>+</span>
+            </button>
+            <div class="exercise-content">
+                <p class="exercise-description">
+                    1. A vector AP is rotated about the YA axis by an angle of 45 degrees, and then
+                    rotated about the XA axis by an angle of 60 degrees. Give the rotation matrix
+                    that performs these rotations in the indicated order.
+                </p>
+                <h3 class="instructions-title">Instructions</h3>
+                <ul class="instructions-list">
+                    <li>Rotated the vector about the YA axis by 45 degrees.</li>
+                    <li>Rotated the vector about the XA axis by 60 degrees.</li>
+                    <li>Define the transformation matrix.</li>
+                </ul>
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="ex1-proc">Procedure</button>
+                        <button class="tab-btn" data-tab="ex1-code">MATLAB Code</button>
+                        <button class="tab-btn" data-tab="ex1-result">Result</button>
+                    </div>
+                    <div class="tab-content active" id="ex1-proc">
+                        <img src="/Applied-Robotics-Blog/assets/images/Task_2\Exercise_1.jpeg" alt="Exercise 1 Procedure">
+                    </div>
+                    <div class="tab-content" id="ex1-code">
+                        <button class="code-toggle">Show Code</button>
+                        <pre class="code-block hidden">
+                            <code class="language-matlab">
+            clc;
+            clear;
+
+            thetaY = deg2rad(45);
+            thetaX = deg2rad(60);
+
+            Ry = [ cos(thetaY) 0 sin(thetaY);
+            0 1 0;
+            -sin(thetaY) 0 cos(thetaY) ];
+
+            Rx = [ 1 0 0;
+            0 cos(thetaX) -sin(thetaX);
+            0 sin(thetaX) cos(thetaX) ];
+
+            R = Rx * Ry
+                            </code>
+                    </pre>
+
+                        <button class="copy-btn">Copy Code</button>
+                    </div>
+                    <div class="tab-content" id="ex1-result">
+                        <div class="matrix-block">
+                            <pre>
+    Result 
+                
+        0.7071         0    0.7071
+        0.6124    0.5000   -0.6124
+        -0.3536    0.8660    0.3536
+                            </pre>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        
+        
+        <section class="exercise-card">
+            <button class="exercise-toggle">
+                Exercise 2 – Transform Composition <span>+</span>
+            </button>
+            <div class="exercise-content">
+                <p class="exercise-description">
+                    2. The reference frame B is rotated with respect to A about the XA axis by
+                    30 degrees. The translation of B from A is given by the vector:
+                    [5 10 0]^T   Formulate the homogeneous transformation matrix.
+                </p>
+                <h3 class="instructions-title">Instructions</h3>
+                <ul class="instructions-list">
+                    <li>B rotation with respect to A</li>
+                    <li>Formulate the homogeneous transformation matrix.</li>
+                </ul>
+
+                <div class="tabs-container">
+
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="ex2-proc">Procedure</button>
+                        <button class="tab-btn" data-tab="ex2-code">MATLAB Code</button>
+                        <button class="tab-btn" data-tab="ex2-result">Result</button>
+                    </div>
+
+                    <div class="tab-content active" id="ex2-proc">
+                        <img src="/Applied-Robotics-Blog/assets/images/Task_2\Exercise_2.jpeg" alt="Exercise 2 Procedure">
+                    </div>
+                    <div class="tab-content" id="ex2-code">
+                        <button class="code-toggle">Show Code</button>
+                        <pre class="code-block hidden">
+                            <code class="language-matlab">
+            clc;
+            clear;
+            
+            thetaX = deg2rad(30);
+            
+            Rx = [ 1 0 0;
+            0 cos(thetaX) -sin(thetaX);
+            0 sin(thetaX) cos(thetaX) ];
+            
+            d = [5;
+            10;
+            0];
+            
+            T = [ Rx d;
+            0 0 0 1 ];
+            
+            T
+                            </code>
+                    </pre>
+
+                        <button class="copy-btn">Copy Code</button>
+                    </div>
+
+                    <div class="tab-content" id="ex2-result">
+                        <div class="matrix-block">
+                            <pre>
+        Result 
+                    
+            1         0        0       0
+            0      0.8660      0      10 
+            0      0.5000   0.8660     0
+            0         0     0.3536     1
+                            </pre>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <a class="back-link" href="../index.html">Back</a>
+
+    </main>
+
+    <footer>
+        <p>Applied Robotics</p>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark") ? "Light" : "Dark";
+        });
+
+        document.querySelectorAll(".exercise-toggle").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const content = btn.nextElementSibling;
+                const open = content.style.display === "block";
+                content.style.display = open ? "none" : "block";
+                btn.querySelector("span").textContent = open ? "+" : "−";
+            });
+        });
+
+        document.querySelectorAll(".tabs-container").forEach(container => {
+            const buttons = container.querySelectorAll(".tab-btn");
+            const contents = container.querySelectorAll(".tab-content");
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    buttons.forEach(b => b.classList.remove("active"));
+                    contents.forEach(c => c.classList.remove("active"));
+
+                    btn.classList.add("active");
+                    container.querySelector(`#${btn.dataset.tab}`).classList.add("active");
+                });
+            });
+        });
+
+        document.querySelectorAll(".code-toggle").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.nextElementSibling;
+                code.classList.toggle("hidden");
+                btn.textContent = code.classList.contains("hidden") ? "Show Code" : "Hide Code";
+            });
+        });
+
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.previousElementSibling.innerText;
+                navigator.clipboard.writeText(code);
+                btn.textContent = "Copied!";
+                setTimeout(() => btn.textContent = "Copy Code", 1500);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
