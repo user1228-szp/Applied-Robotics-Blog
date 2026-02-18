@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Activity Ros 2 Services</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+        <button id="darkToggle" class="dark-toggle">Dark</button>
+    </header>
+
+    <main>
+        <h1>Activity Ros 2 Services</h1>
+
+        <section class="task-instructions">
+            <h2 class="instructions-title">Instructions</h2>
+            <p>
+                Read the attached PDF file, and create a lab log with your solution.
+            </p>
+
+            <p><strong>Quick recap:</strong></p>
+
+            <ul>
+                <li>
+                    The node “number_publisher” publishes a number on the /”number” topic.
+                </li>
+                
+                <li>
+                    The node “number_counter” gets the number, adds it to a counter, and publishes the counter on the “/number_count” topic.
+                </li>
+            </ul>
+        </section>
+
+        <section class="tabs-container">
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab1">Publisher (code)</button>
+                <button class="tab-btn" data-tab="tab2">Counter (code)</button>
+                <button class="tab-btn" data-tab="tab3">Number</button>
+                <button class="tab-btn" data-tab="tab4">/number_counter</button>
+                <button class="tab-btn" data-tab="tab5">/number_count</button>
+                <button class="tab-btn" data-tab="tab6">/parameter_events</button>
+                <button class="tab-btn" data-tab="tab7">RESULTS</button>
+            </div>
+
+            <div class="tab-content active" id="tab1">
+                <h3>Publisher code</h3>
+                <p>
+                    Publisher code, responsible for publishing a number to the /number topic every second.
+                </p>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/publisher_2.png.PNG" alt="Second Terminal">
+                <button class="code-toggle">Show Code</button>
+                <div class="code-wrapper">
+                    <pre class="code-block">
+                        <code class="language-python">
+                    #!/usr/bin/env python3
+                    
+                    import rclpy
+                    import random
+                    
+                    from rclpy.node import Node
+                    from std_msgs.msg import Int64
+                    
+                    class NumberPublisher(Node):
+                    def __init__(self):
+                    super().__init__("publisher")
+                    self.get_logger().info("Publisher iniciado")
+                    
+                    self.publisher_ = self.create_publisher(Int64,"/number",10)
+                    self.timer_ = self.create_timer(1.0,self.timer_callback)
+                    
+                    def timer_callback(self):
+                    msg = Int64()
+                    msg.data = random.randint(1, 10)
+                    self.publisher_.publish(msg)
+                    self.get_logger().info("Conteo: " + str(msg.data))
+                    
+                    def main(args=None):
+                    rclpy.init(args=args)
+                    my_node = NumberPublisher()
+                    rclpy.spin(my_node)
+                    rclpy.shutdown()
+                    
+                    if __name__ == "__main__":
+                    main()
+                            </code>
+                        </pre>
+                    <button class="copy-btn">Copy Code</button>
+                </div>
+            </div>
+
+
+
+            <div class="tab-content" id="tab2">
+                <h3>Counter code</h3>
+                <p>
+                    Counter code, responsible for receiving numbers from the /number topic, adding them to a counter, and publishing the counter on the /number_count topic.
+                </p>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/counter_2.png.PNG" alt="Second Terminal">
+                <button class="code-toggle">Show Code</button>
+                <div class="code-wrapper">
+                    <pre class="code-block">
+                        <code class="language-python">
+                #!/usr/bin/env python3
+                import rclpy
+
+                from rclpy.node import Node
+                from std_msgs.msg import Int64
+                from example_interfaces.srv import SetBool
+
+                class NumberCounter(Node):
+                    def __init__(self):
+                        super().__init__("number_counter")
+                        self.get_logger().info("Inicio en:")
+                        self.counter_ = 0
+                        self.subscriber_ = self.create_subscription(Int64,"/number",self.number_callback,10)
+                        self.publisher_ = self.create_publisher(Int64,"/number_count",10)
+                        self.service_ = self.create_service(SetBool,"/reset_counter",self.reset_callback)
+
+                    def number_callback(self, msg):
+                        self.counter_ += msg.data
+                        new_msg = Int64()
+                        new_msg.data = self.counter_
+                        self.publisher_.publish(new_msg)
+                        self.get_logger().info("listener: " + str(self.counter_))
+
+                    def reset_callback(self, request, response):
+
+                        if request.data:
+                            self.counter_ = 0
+                            response.success = True
+                            response.message = "Inicio"
+                            self.get_logger().info("Iniciando")
+                        else:
+                            response.success = False
+                        return response
+
+
+                    def main(args=None):
+                        rclpy.init(args=args)
+                        my_node = NumberCounter()
+                        rclpy.spin(my_node)
+                        rclpy.shutdown()
+
+
+                    if __name__ == "__main__":
+                        main()
+                            </code>
+                        </pre>
+                    <button class="copy-btn">Copy Code</button>
+                </div>
+            </div>
+
+
+
+            <div class="tab-content" id="tab3">
+                <h3>Number</h3>
+                <p>
+                    Image showing the number being published on the /number topic.
+                </p>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/number.png" alt="NUMBER" />
+            </div>
+
+
+
+            <div class="tab-content" id="tab4">
+                <h3>/number_counter</h3>
+                <p>
+                    Image showing the number being published on the /number_counter topic.
+                </p>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/number_counter.png" alt="NUMBER_COUNTER" />
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/number_count_2.png" alt="NUMBER_COUNT_terminal" />
+            </div>
+
+
+
+            <div class="tab-content" id="tab5">
+                <h3>/number_count</h3>
+                <p>
+                    Image showing the number being published on the /number_count topic.
+                </p>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/number_count.png" alt="NUMBER_COUNT" />
+            </div>
+
+
+
+            <div class="tab-content" id="tab6">
+                <h3>//parameter_events</h3>
+                <p>
+                    Image showing the parameter events topic.
+                </p>
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/parameter_events.png" alt="PARAMETER_EVENTS" />
+            </div>
+
+
+
+
+            <div class="tab-content" id="tab7">
+                <h3>Results</h3>
+                <p>
+                    Image showing the results visualizing the topics using rqt_graph.
+                </p>
+                
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/resultado.png" alt="RESULTS" />
+            </div>
+
+        </section>
+
+        <a class="back-link" href="../index.html">Back</a>
+    </main>
+
+    <footer>
+        <p>Applied Robotics</p>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark")
+                ? "Light"
+                : "Dark";
+        });
+
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabButtons.forEach(b => b.classList.remove("active"));
+                tabContents.forEach(c => c.classList.remove("active"));
+
+                btn.classList.add("active");
+                document.getElementById(btn.dataset.tab)
+                    .classList.add("active");
+            });
+        });
+
+        document.querySelectorAll(".code-toggle").forEach(button => {
+            button.addEventListener("click", () => {
+                const wrapper = button.nextElementSibling;
+
+                if (wrapper.style.display === "block") {
+                    wrapper.style.display = "none";
+                    button.textContent = "Show Code";
+                } else {
+                    wrapper.style.display = "block";
+                    button.textContent = "Hide Code";
+                }
+            });
+        });
+
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code);
+                btn.textContent = "Copied";
+                setTimeout(() => (btn.textContent = "Copy Code"), 1500);
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+
+</body>
+
+</html>
