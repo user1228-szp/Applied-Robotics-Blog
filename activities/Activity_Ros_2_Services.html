@@ -130,18 +130,6 @@
                         self.publisher_.publish(new_msg)
                         self.get_logger().info("listener: " + str(self.counter_))
 
-                    def reset_callback(self, request, response):
-
-                        if request.data:
-                            self.counter_ = 0
-                            response.success = True
-                            response.message = "Inicio"
-                            self.get_logger().info("Iniciando")
-                        else:
-                            response.success = False
-                        return response
-
-
                     def main(args=None):
                         rclpy.init(args=args)
                         my_node = NumberCounter()
