@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Activity Ros 2 Services</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+        <button id="darkToggle" class="dark-toggle">Dark</button>
+    </header>
+
+    <main>
+        <h1>Activity 3 Ros2 Custom Interfaces</h1>
+
+        <section class="task-instructions">
+            <h2 class="instructions-title">Instructions</h2>
+            <p>
+                Read the attached activity in the PDF, do it and log it in your lab, remember to add screenshots, logs, code.
+            </p>
+        </section>
+
+        <section class="tabs-container">
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab1">Panel  (code)</button>
+                <button class="tab-btn" data-tab="tab2">LEDs (code)</button>
+                <button class="tab-btn" data-tab="tab3">RESULTS</button>
+            </div>
+
+            <div class="tab-content active" id="tab1">
+                <h3> Panel code</h3>
+                <p>
+                    In this activity you will implement the battery + led panel example that we used to 
+                    understand Services in the previous section. When the battery is empty we power on a
+                    LED, and when the battery is full we power it off.
+                </p>
+                <button class="code-toggle">Show Code</button>
+                <div class="code-wrapper">
+                    <pre class="code-block">
+                        <code class="language-python">
+                    #!/usr/bin/env python3
+                    import rclpy
+                    from rclpy.node import Node
+                    
+                    from battery_led_system.msg import Led_panel
+                    from battery_led_system.srv import LED
+                    
+                    
+                    class LedPanelNode(Node):
+                    
+                    def __init__(self):
+                    super().__init__('led_control')
+                    self.leds = [0, 0, 0]
+                    self.publisher = self.create_publisher(Led_panel, 'led_panel', 10)
+                    self.service = self.create_service(LED, 'set_led', self.set_led_callback)
+                    self.timer = self.create_timer(1, self.publish_state)
+                    self.get_logger().info("LED ON")
+                    
+                    def publish_state(self):
+                    msg = Led_panel()
+                    msg.leds = self.leds
+                    self.publisher.publish(msg)
+                    
+                    def set_led_callback(self, request, response):
+                    led = request.led_number
+                    state = request.state
+                    
+                    if 0 <= led < len(self.leds): self.leds[led]=1 if state else 0 response.success=True self.get_logger().info(f"LED {led}
+                        -> {self.leds[led]}")
+                        else:
+                        response.success = False
+                    
+                        return response
+                    
+                    
+                        def main(args=None):
+                        rclpy.init(args=args)
+                        node = LedPanelNode()
+                        rclpy.spin(node)
+                        rclpy.shutdown()
+                            </code>
+                        </pre>
+                    <button class="copy-btn">Copy Code</button>
+                </div>
+            </div>
+
+
+
+            <div class="tab-content" id="tab2">
+                <h3>Leds</h3>
+                <button class="code-toggle">Show Code</button>
+                <div class="code-wrapper">
+                    <pre class="code-block">
+                        <code class="language-python">
+                #!/usr/bin/env python3
+                import rclpy
+                from rclpy.node import Node
+                
+                from battery_led_system.msg import Led_panel
+                from battery_led_system.srv import LED
+                
+                
+                class LedPanel(Node):
+                
+                def __init__(self):
+                super().__init__('led_panel_node')
+                
+                self.leds = [0, 0, 0]
+                
+                self.publisher = self.create_publisher(Led_panel,'led_panel',10)
+                
+                self.service = self.create_service(
+                LED,
+                'set_led',
+                self.set_led_callback
+                )
+                
+                self.timer = self.create_timer(1.0, self.publish_state)
+                
+                self.get_logger().info("LED Panel ready")
+                
+                def publish_state(self):
+                msg = Led_panel()
+                msg.leds = self.leds
+                self.publisher.publish(msg)
+                
+                def set_led_callback(self, request: LED.Request, response: LED.Response):
+                
+                led = request.led_number
+                state = request.state
+                
+                if 0 <= led < len(self.leds): self.leds[led]=1 if state else 0 response.success=True self.get_logger().info(f"LED {led}
+                    -> {self.leds[led]}")
+                    else:
+                    response.success = False
+                
+                    return response
+                
+                
+                    def main(args=None):
+                    rclpy.init(args=args)
+                    node = LedPanel()
+                    rclpy.spin(node)
+                    rclpy.shutdown()
+                
+                
+                    if __name__ == "__main__":
+                    main()
+                            </code>
+                        </pre>
+                    <button class="copy-btn">Copy Code</button>
+                </div>
+            </div>
+
+
+
+            <div class="tab-content" id="tab3">
+                <h3>Results</h3>
+                <p>
+                    Image showing the results visualizing the topics using rqt_graph.
+                </p>
+                
+                <img src="/Applied-Robotics-Blog/assets/images/Activity_Ros_2_Services/resultado.png" alt="RESULTS" />
+            </div>
+
+        </section>
+
+        <a class="back-link" href="../index.html">Back</a>
+    </main>
+
+    <footer>
+        <p>Applied Robotics</p>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark")
+                ? "Light"
+                : "Dark";
+        });
+
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabButtons.forEach(b => b.classList.remove("active"));
+                tabContents.forEach(c => c.classList.remove("active"));
+
+                btn.classList.add("active");
+                document.getElementById(btn.dataset.tab)
+                    .classList.add("active");
+            });
+        });
+
+        document.querySelectorAll(".code-toggle").forEach(button => {
+            button.addEventListener("click", () => {
+                const wrapper = button.nextElementSibling;
+
+                if (wrapper.style.display === "block") {
+                    wrapper.style.display = "none";
+                    button.textContent = "Show Code";
+                } else {
+                    wrapper.style.display = "block";
+                    button.textContent = "Hide Code";
+                }
+            });
+        });
+
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code);
+                btn.textContent = "Copied";
+                setTimeout(() => (btn.textContent = "Copy Code"), 1500);
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+
+</body>
+
+</html>
