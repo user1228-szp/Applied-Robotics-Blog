@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ros Basics Capstone</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+        <button id="darkToggle" class="dark-toggle">Dark</button>
+    </header>
+
+    <main>
+        <h1>Ros Basics Capstone</h1>
+
+        <section class="task-instructions">
+            <h2 class="instructions-title">Instructions</h2>
+            <p>
+                Create a code like the one in the video. Instructions are on the attached PDF. 
+                Create the neceesary documentation on your page. 
+                This homework is worth double.
+            </p>
+        </section>
+
+        <section class="tabs-container">
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab1">Turtle  (code)</button>
+                <button class="tab-btn" data-tab="tab2">Controller (code)</button>
+                <button class="tab-btn" data-tab="tab3">RESULTS</button>
+            </div>
+
+            <div class="tab-content active" id="tab1">
+                <h3> Turtle (code)</h3>
+                <p>
+                    In this activity you will implement a node that controls a turtle in turtlesim. 
+                    The turtle will move in a square pattern, and then it will go to the center of the screen.
+                </p>
+                <button class="code-toggle">Show Code</button>
+                <div class="code-wrapper">
+                    <pre class="code-block">
+                        <code class="language-python">
+    #!/usr/bin/env python3
+
+    import rclpy
+    import random
+    from rclpy.node import Node
+    from turtlesim.srv import Spawn, Kill
+    from my_robot_interfaces.msg import Turtle, TurtleArray
+    from my_robot_interfaces.srv import CatchTurtle
+
+
+    class TurtleSpawner(Node):
+
+    def __init__(self):
+        super().__init__('turtle_spawner')
+
+        # Clientes
+        self.spawn_client = self.create_client(Spawn, '/spawn')
+        self.kill_client = self.create_client(Kill, '/kill')
+
+        # Publisher
+        self.publisher_ = self.create_publisher(
+            TurtleArray,
+            '/alive_turtles',
+            10
+        )
+
+        # Servicio personalizado
+        self.service = self.create_service(
+            CatchTurtle,
+            '/catch_turtle',
+            self.catch_turtle_callback
+        )
+
+        self.alive_turtles = []
+
+        # Timer para spawnear cada 5 segundos
+        self.timer = self.create_timer(5.0, self.spawn_turtle)
+
+        self.get_logger().info("Turtle Spawner iniciado")
+
+    def spawn_turtle(self):
+
+        if not self.spawn_client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().warn("Servicio /spawn no disponible")
+            return
+
+        # Generar coordenadas aleatorias
+        x = random.uniform(0.5, 10.5)
+        y = random.uniform(0.5, 10.5)
+        theta = random.uniform(0.0, 6.28)
+
+        request = Spawn.Request()
+        request.x = x
+        request.y = y
+        request.theta = theta
+
+        future = self.spawn_client.call_async(request)
+
+        # Guardar también las coordenadas reales
+        future.add_done_callback(
+            lambda future: self.spawn_done(future, x, y, theta)
+        )
+
+    def spawn_done(self, future, x, y, theta):
+
+        try:
+            response = future.result()
+        except Exception as e:
+            self.get_logger().error(f"Error al spawnear: {e}")
+            return
+
+        turtle = Turtle()
+        turtle.name = response.name
+        turtle.x = x
+        turtle.y = y
+        turtle.theta = theta
+
+        self.alive_turtles.append(turtle)
+
+        self.publish_alive_turtles()
+
+        self.get_logger().info(f"Tortuga creada: {turtle.name} en ({x:.2f}, {y:.2f})")
+
+    def publish_alive_turtles(self):
+
+        msg = TurtleArray()
+        msg.turtles = self.alive_turtles
+        self.publisher_.publish(msg)
+
+    def catch_turtle_callback(self, request, response):
+
+        if not self.kill_client.wait_for_service(timeout_sec=1.0):
+            response.success = False
+            return response
+
+        kill_request = Kill.Request()
+        kill_request.name = request.name
+
+        self.kill_client.call_async(kill_request)
+
+        # Eliminar de la lista
+        self.alive_turtles = [
+            t for t in self.alive_turtles
+            if t.name != request.name
+        ]
+
+        self.publish_alive_turtles()
+
+        self.get_logger().info(f"Tortuga eliminada: {request.name}")
+
+        response.success = True
+        return response
+
+
+    def main(args=None):
+        rclpy.init(args=args)
+        node = TurtleSpawner()
+        rclpy.spin(node)
+        rclpy.shutdown()
+                            
+
+
+                            </code>
+                        </pre>
+                    <button class="copy-btn">Copy Code</button>
+                </div>
+            </div>
+
+
+
+            <div class="tab-content" id="tab2">
+                <h3>Controller</h3>
+                <button class="code-toggle">Show Code</button>
+                <div class="code-wrapper">
+                    <pre class="code-block">
+                        <code class="language-python">
+                    
+#!/usr/bin/env python3
+
+import rclpy
+import math
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+from turtlesim.msg import Pose
+from my_robot_interfaces.msg import TurtleArray
+from my_robot_interfaces.srv import CatchTurtle
+
+
+class TurtleController(Node):
+
+    def __init__(self):
+        super().__init__('turtle_controller')
+
+        self.pose = None
+        self.target = None
+
+        self.create_subscription(
+            Pose,
+            '/turtle1/pose',
+            self.pose_callback,
+            10
+        )
+
+        self.create_subscription(
+            TurtleArray,
+            '/alive_turtles',
+            self.alive_callback,
+            10
+        )
+
+        self.publisher_ = self.create_publisher(
+            Twist,
+            '/turtle1/cmd_vel',
+            10
+        )
+
+        self.client = self.create_client(
+            CatchTurtle,
+            '/catch_turtle'
+        )
+
+        self.timer = self.create_timer(0.1, self.control_loop)
+
+    def pose_callback(self, msg):
+        self.pose = msg
+
+    def alive_callback(self, msg):
+        if len(msg.turtles) > 0:
+            self.target = msg.turtles[0]
+        else:
+            self.target = None
+
+    def control_loop(self):
+
+        if self.pose is None or self.target is None:
+            return
+
+        dx = self.target.x - self.pose.x
+        dy = self.target.y - self.pose.y
+
+        distance = math.sqrt(dx*dx + dy*dy)
+        angle = math.atan2(dy, dx)
+
+        cmd = Twist()
+
+        cmd.linear.x = 2.0 * distance
+        cmd.angular.z = 6.0 * (angle - self.pose.theta)
+
+        self.publisher_.publish(cmd)
+
+        if distance < 0.3:
+            request = CatchTurtle.Request()
+            request.name = self.target.name
+            self.client.call_async(request)
+
+
+    def main(args=None):
+        rclpy.init(args=args)
+        node = TurtleController()
+        rclpy.spin(node)
+        rclpy.shutdown()
+                
+
+
+                            </code>
+                        </pre>
+                    <button class="copy-btn">Copy Code</button>
+                </div>
+            </div>
+
+
+
+            <div class="tab-content" id="tab3">
+                <h3>Results</h3>
+                <p>
+                    Image showing the results visualizing the result
+                </p>
+                
+                
+                <img src="../assets\images\Act_4\portada.PNG" alt="RESULT" />
+                <img src="../assets\images\Act_4\Result_2.jpeg" alt="RESULT_2" />
+                <img src="../assets\images\Act_4\Result_3.jpeg" alt="RESULT_3" />
+                <img src="../assets\images\Act_4\Result_4.jpeg" alt="RESULT_4" />
+            </div>
+
+        </section>
+
+        <a class="back-link" href="../index.html">Back</a>
+    </main>
+
+    <footer>
+        <p>Applied Robotics</p>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark")
+                ? "Light"
+                : "Dark";
+        });
+
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabButtons.forEach(b => b.classList.remove("active"));
+                tabContents.forEach(c => c.classList.remove("active"));
+
+                btn.classList.add("active");
+                document.getElementById(btn.dataset.tab)
+                    .classList.add("active");
+            });
+        });
+
+        document.querySelectorAll(".code-toggle").forEach(button => {
+            button.addEventListener("click", () => {
+                const wrapper = button.nextElementSibling;
+
+                if (wrapper.style.display === "block") {
+                    wrapper.style.display = "none";
+                    button.textContent = "Show Code";
+                } else {
+                    wrapper.style.display = "block";
+                    button.textContent = "Hide Code";
+                }
+            });
+        });
+
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code);
+                btn.textContent = "Copied";
+                setTimeout(() => (btn.textContent = "Copy Code"), 1500);
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+
+</body>
+
+</html>
