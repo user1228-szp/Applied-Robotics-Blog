@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<robot name="industrial_6dof_arm">
+
+   <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="2" radius="0.07"/>
+      </geometry>
+      <origin xyz="0 0 1"/>
+      <material name="gray">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+  </link>
+
+
+
+ <link name="link1">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.07"/>
+      </geometry>
+      <origin xyz="0.3 0 0" rpy="0 1.5708 0"/>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="joint2" type="prismatic">
+    <origin xyz="0 0 2" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.5" effort="100" velocity="1"/>
+  </joint>
+
+
+<link name="link2">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.06"/>
+      </geometry>
+      <origin xyz="0.3 0 0" rpy="0 1.5708 0"/>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="joint3" type="prismatic">
+    <origin xyz="0.63 0 0" rpy="0 0 1.5708"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.5" effort="100" velocity="1"/>
+  </joint>
+
+
+
+<link name="link3">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.05"/>
+      </geometry>
+      <origin xyz="0.3 0 0" rpy="0 1.5708 0"/>
+      <material name="orange">
+        <color rgba="1 0.5 0 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="joint4" type="prismatic">
+    <origin xyz="0.6 0 0" rpy="0 1.5708 0"/>
+    <parent link="link2"/>
+    <child link="link3"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="1.4" effort="100" velocity="1"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<robot name="my_robot" >
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.5 0.5 0.125"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="green">
+                <color rgba="0.5 0.5 0.5 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="rotationBase_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.25" radius="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0.125" rpy="0 0 0"/>
+            <material name="gray">
+                <color rgba="0.5 0.5 0.5 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="Sholder_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.5" radius="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0.025" rpy="0 1.57 0"/>
+            <material name="yellow">
+                <color rgba="1 1 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="arm1_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.5" radius="0.05"/>
+            </geometry>
+            <origin xyz="0.25 0 0.02" rpy="0 1.57 0"/>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="rotation1_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.06" radius="0.05"/>
+            </geometry>
+            <origin xyz="0.03 0 0" rpy="0 1.57 0"/>
+            <material name="green">
+                <color rgba="0 1 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="rotation2_link">
+        <visual>
+            <geometry>
+                <box size="0.125 0.25 0.125"/>
+            </geometry>
+            <origin xyz="0.05 0 0" rpy="1.57 0 0"/>
+            <material name="blue">
+                 <color rgba="0 0 1 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <link name="rotation3_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.06" radius="0.05"/>
+            </geometry>
+            <origin xyz="0 0 0.03" rpy="0 0 1.57"/>
+            <material name="green">
+                <color rgba="0 1 0 1"/>
+            </material>
+        </visual>
+    </link>
+
+
+
+
+    <joint name="joint1" type="revolute">
+        <origin xyz="0 0 0.0625" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="rotationBase_link"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="100"/>
+    </joint>
+     
+     <joint name="joint2" type="revolute">
+        <origin xyz="0 0 0.25" rpy="0 0 0"/>
+        <parent link="rotationBase_link"/>
+        <child link="Sholder_link"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="100"/>
+    </joint>
+
+    <joint name="joint3" type="revolute">
+        <origin xyz="0.25 0 0" rpy="0 0 0"/>
+        <parent link="Sholder_link"/>
+        <child link="arm1_link"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="100"/>
+    </joint>
+    
+    <joint name="joint4" type="revolute">
+        <origin xyz="0.5 0 0.015" rpy="0 0 0"/>
+        <parent link="arm1_link"/>
+        <child link="rotation1_link"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="100"/>
+    </joint>
+
+    <joint name="joint5" type="revolute">
+        <origin xyz="0.075 0 0" rpy="0 0 0"/>
+        <parent link="rotation1_link"/>
+        <child link="rotation2_link"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="100"/>
+    </joint>
+
+    <joint name="joint6" type="revolute">
+        <origin xyz="0.05 0 0.125" rpy="3.14 3.14 3.14"/>
+        <parent link="rotation2_link"/>
+        <child link="rotation3_link"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1.57" upper="1.57" effort="100" velocity="100"/>
+    </joint>
+
+</robot>
