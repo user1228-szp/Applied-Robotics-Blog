@@ -44,6 +44,21 @@
                     </div>
                    
                 <div class="tab-content active" id="process">
+                    <h3>URDF Code</h3>
+
+<pre id="code">Loading...</pre>
+
+<script>
+fetch("codes_urdf\Robot_1.urdf")
+.then(r => r.text())
+.then(t => {
+document.getElementById("code").textContent = t;
+})
+.catch(e => {
+document.getElementById("code").textContent = "Error loading file";
+console.log(e);
+});
+</script>
                     <button class="code-toggle">Show Code</button>
                         <div class="code-wrapper">
                             <pre class="code-block">
@@ -174,6 +189,21 @@
                         <img src="../assets/images/Activity_2/exercice_2.png" alt="Exercise 2 Procedure">
                     </div>
                     <div class="tab-content" id="process">
+                        <h3>URDF Code</h3>
+
+<pre id="code">Loading...</pre>
+
+<script>
+fetch("codes_urdf\Robot_2.urdf")
+.then(r => r.text())
+.then(t => {
+document.getElementById("code").textContent = t;
+})
+.catch(e => {
+document.getElementById("code").textContent = "Error loading file";
+console.log(e);
+});
+</script>
                         <button class="code-toggle">Show Code</button>
                         <div class="code-wrapper hidden">
                             <pre class="code-block"><code class="language-xml">
@@ -288,6 +318,21 @@
                         <img src="../assets/images/Activity_2/exercice_3.png" alt="Exercise 3 Procedure">
                     </div>
                     <div class="tab-content" id="ex1-code">
+                        <h3>URDF Code</h3>
+
+<pre id="code">Loading...</pre>
+
+<script>
+fetch("codes_urdf\Robot_3.urdf")
+.then(r => r.text())
+.then(t => {
+document.getElementById("code").textContent = t;
+})
+.catch(e => {
+document.getElementById("code").textContent = "Error loading file";
+console.log(e);
+});
+</script>
                         <button class="code-toggle">Show Code</button>
                         <div class="code-wrapper hidden">
                             <pre class="code-block"><code class="language-xml">
@@ -462,6 +507,22 @@
                         <img src="../assets/images/Activity_2/exercice_4.png" alt="Exercise 4 Procedure">
                     </div>
                     <div class="tab-content" id="process">
+
+                        <h3>URDF Code</h3>
+
+<pre id="code">Loading...</pre>
+
+<script>
+fetch("codes_urdf\Robot_4.urdf")
+.then(r => r.text())
+.then(t => {
+document.getElementById("code").textContent = t;
+})
+.catch(e => {
+document.getElementById("code").textContent = "Error loading file";
+console.log(e);
+});
+</script>
                         <button class="code-toggle">Show Code</button>
                         <div class="code-wrapper hidden">
                             <pre><code>
@@ -642,7 +703,7 @@
 <pre id="code">Loading...</pre>
 
 <script>
-fetch("robot.urdf")
+fetch("codes_urdf\Robot_5.urdf")
 .then(r => r.text())
 .then(t => {
 document.getElementById("code").textContent = t;
