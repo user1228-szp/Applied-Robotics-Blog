@@ -36,23 +36,23 @@
                 <div class="tabs-container">
                     <div class="tabs">
                         <button class="tab-btn active" data-tab="ex1-proc">Robot 1</button>
-                        <button class="tab-btn" data-tab="process">Code</button>
-                        <button class="tab-btn" data-tab="result_1">Result</button>
+                        <button class="tab-btn" data-tab="ex1-code">Code</button>
+                        <button class="tab-btn" data-tab="ex1-result">Result</button>
                     </div>
-                    <div class="tab-content active" id="Robot 1">
+                    <div class="tab-content active" id="ex1-proc">
                         <img src="../assets/images/Activity_2/exercice_1.png" alt="Exercise 1 Procedure">
                     </div>
                    
-                <div class="tab-content active" id="process">
+                <div class="tab-content" id="ex1-code">
                     <h3>URDF Code</h3>
 
-<pre id="code">Loading...</pre>
+<pre id="code-1">Loading...</pre>
 
 <script>
 fetch("codes_urdf/Robot_1.urdf")
 .then(r => r.text())
 .then(t => {
-document.getElementById("code").textContent = t;
+document.getElementById("code-1").textContent = t;
 })
 .catch(e => {
 document.getElementById("code").textContent = "Error loading file";
@@ -162,7 +162,7 @@ console.log(e);
                             <button class="copy-btn">Copy Code</button>
                         </div>
                     
-                    <div class="tab-content" id="result_1">
+                    <div class="tab-content" id="ex1-result">
                         <div class="matrix-block">
                             <pre>
                                 <img src="../assets/images/Act_5/resultado_r1.png" alt="Exercise 1 Result"> 
@@ -181,23 +181,23 @@ console.log(e);
             <div class="exercise-content">
                 <div class="tabs-container">
                     <div class="tabs">
-                        <button class="tab-btn active" data-tab="ex1-proc">Exercise 2</button>
-                        <button class="tab-btn" data-tab="process">Code</button>
-                        <button class="tab-btn" data-tab="result_1">Result</button>
+                        <button class="tab-btn active" data-tab="ex2-proc">Exercise 2</button>
+                        <button class="tab-btn" data-tab="ex2-code">Code</button>
+                        <button class="tab-btn" data-tab="ex2-result">Result</button>
                     </div>
-                    <div class="tab-content active" id="ex1-proc">
+                    <div class="tab-content active" id="ex2-proc">
                         <img src="../assets/images/Activity_2/exercice_2.png" alt="Exercise 2 Procedure">
                     </div>
-                    <div class="tab-content" id="process">
+                    <div class="tab-content" id="ex2-code">
                         <h3>URDF Code</h3>
 
-<pre id="code">Loading...</pre>
+<pre id="code-2">Loading...</pre>
 
 <script>
 fetch("codes_urdf/Robot_2.urdf")
 .then(r => r.text())
 .then(t => {
-document.getElementById("code").textContent = t;
+document.getElementById("code-2").textContent = t;
 })
 .catch(e => {
 document.getElementById("code").textContent = "Error loading file";
@@ -291,7 +291,7 @@ console.log(e);
                         </div>
                     
                     </div>
-                    <div class="tab-content" id="result_1">
+                    <div class="tab-content" id="ex2-result">
                         <div class="matrix-block">
                             <pre>
                                 <img src="../assets/images/Act_5/resultado_r2.png" alt="Exercise 2 Result">                                
@@ -310,23 +310,23 @@ console.log(e);
             <div class="exercise-content">
                 <div class="tabs-container">
                     <div class="tabs">
-                        <button class="tab-btn active" data-tab="ex1-proc">Exercise 3</button>
-                        <button class="tab-btn" data-tab="process">Code</button>
-                        <button class="tab-btn" data-tab="result_1">Result</button>
+                        <button class="tab-btn active" data-tab="ex3-proc">Exercise 3</button>
+                        <button class="tab-btn" data-tab="ex3-code">Code</button>
+                        <button class="tab-btn" data-tab="ex3-result">Result</button>
                     </div>
-                    <div class="tab-content active" id="ex1-proc">
+                    <div class="tab-content active" id="ex3-proc">
                         <img src="../assets/images/Activity_2/exercice_3.png" alt="Exercise 3 Procedure">
                     </div>
-                    <div class="tab-content" id="ex1-code">
+                    <div class="tab-content" id="ex3-code">
                         <h3>URDF Code</h3>
 
-<pre id="code">Loading...</pre>
+<pre id="code-3">Loading...</pre>
 
 <script>
 fetch("codes_urdf/Robot_3.urdf")
 .then(r => r.text())
 .then(t => {
-document.getElementById("code").textContent = t;
+document.getElementById("code-3").textContent = t;
 })
 .catch(e => {
 document.getElementById("code").textContent = "Error loading file";
@@ -480,7 +480,7 @@ console.log(e);
                         </div>
                     
                     </div>
-                    <div class="tab-content" id="result_1">
+                    <div class="tab-content" id="ex3-result">
                         <div class="matrix-block">
                             <pre>
                                 <img src="../assets/images/Act_5/resultado_r3.png" alt="Exercise 3 Matrix"> 
@@ -499,24 +499,24 @@ console.log(e);
             <div class="exercise-content">
                 <div class="tabs-container">
                     <div class="tabs">
-                        <button class="tab-btn active" data-tab="ex1-proc">Exercise 4</button>
-                        <button class="tab-btn" data-tab="process">Code</button>
-                        <button class="tab-btn" data-tab="result_1">Result</button>
+                        <button class="tab-btn active" data-tab="ex4-proc">Exercise 4</button>
+                        <button class="tab-btn" data-tab="ex4-code">Code</button>
+                        <button class="tab-btn" data-tab="ex4-result">Result</button>
                     </div>
-                    <div class="tab-content active" id="ex1-proc">
+                    <div class="tab-content active" id="ex4-proc">
                         <img src="../assets/images/Activity_2/exercice_4.png" alt="Exercise 4 Procedure">
                     </div>
-                    <div class="tab-content" id="process">
+                    <div class="tab-content" id="ex4-code">
 
                         <h3>URDF Code</h3>
 
-<pre id="code">Loading...</pre>
+<pre id="code-4">Loading...</pre>
 
 <script>
 fetch("codes_urdf/Robot_4.urdf")
 .then(r => r.text())
 .then(t => {
-document.getElementById("code").textContent = t;
+document.getElementById("code-4").textContent = t;
 })
 .catch(e => {
 document.getElementById("code").textContent = "Error loading file";
@@ -670,7 +670,7 @@ console.log(e);
                         </div>
                     
                     </div>
-                    <div class="tab-content" id="result_1">
+                    <div class="tab-content" id="ex4-result">
                         <div class="matrix-block">
                             <pre>
                                 <img src="../assets/images/Act_5/resultado_r4.png" alt="Exercise 4 Matrix">                                 
@@ -689,24 +689,24 @@ console.log(e);
             <div class="exercise-content">
                 <div class="tabs-container">
                     <div class="tabs">
-                        <button class="tab-btn active" data-tab="ex1-proc">Exercise 5</button>
-                        <button class="tab-btn" data-tab="process">Code</button>
-                        <button class="tab-btn" data-tab="result_1">Result</button>
+                        <button class="tab-btn active" data-tab="ex5-proc">Exercise 5</button>
+                        <button class="tab-btn" data-tab="ex5-code">Code</button>
+                        <button class="tab-btn" data-tab="ex5-result">Result</button>
                     </div>
-                    <div class="tab-content active" id="ex1-proc">
-                        <img src="/Applied-Robotics-Blog/assets/images/Activity_2/exercice_5.png"
+                    <div class="tab-content active" id="ex5-proc">
+                        <img src="../assets/images/Activity_2/exercice_5.png"
                             alt="Exercise 5 Procedure">
                     </div>
-                    <div class="tab-content" id="process">
+                    <div class="tab-content" id="ex5-code">
 <h3>URDF Code</h3>
 
-<pre id="code">Loading...</pre>
+<pre id="code-5">Loading...</pre>
 
 <script>
 fetch("codes_urdf/Robot_5.urdf")
 .then(r => r.text())
 .then(t => {
-document.getElementById("code").textContent = t;
+document.getElementById("code-5").textContent = t;
 })
 .catch(e => {
 document.getElementById("code").textContent = "Error loading file";
@@ -875,7 +875,7 @@ console.log(e);
                     
                     </div>
 
-                    <div class="tab-content" id="result_1">
+                    <div class="tab-content" id="ex5-result">
                         <div class="matrix-block">
                             <pre>
                                <img src="../assets/images/Act_5/resultado_r5.png" alt="Exercise 5 Matrix"> 
