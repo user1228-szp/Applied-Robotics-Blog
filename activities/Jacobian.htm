@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>IK and Jacobian</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+        <button id="darkToggle" class="dark-toggle">Dark</button>
+    </header>
+
+    <main>
+        <h1>IK and Jacobian</h1>
+
+        <section class="task-instructions">
+            <h2 class="instructions-title">Instructions</h2>
+            <p>
+                From this robot get the IK via the geometirc method and calculate it's jacobian. 
+            </p><p>
+                The jacobian via algebraic or geometric method
+            </p>
+        </section>
+
+        <section class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab1">Exercise</button>
+                <button class="tab-btn" data-tab="tab2">Process</button>
+                <button class="tab-btn" data-tab="tab3">Solution</button>
+            </div>
+
+            <div class="tab-content active" id="tab1">
+                <h3>Exercise</h3>
+                <img src="../assets\images\Act_6\Exercise.png" alt="Exercise" />
+            </div>
+
+
+            <div class="tab-content" id="tab2">
+                <h3>Process</h3>
+                <img src="../assets\images\Act_6/Process1.jpeg" alt="Process_1" />
+                <img src="../assets\images\Act_6/Process2.jpeg" alt="Process_2" />
+            </div>
+
+
+            <div class="tab-content" id="tab3">
+                <h3>Solution</h3>
+                <img src="../assets\images\Act_6/Result.png" alt="Solution" />
+            </div>
+
+        </section>
+
+        <a class="back-link" href="../index.html">Back</a>
+    </main>
+
+    <footer>
+        <p>Applied Robotics</p>
+    </footer>
+
+    <script>
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark")
+                ? "Light"
+                : "Dark";
+        });
+
+        const tabButtons = document.querySelectorAll(".tab-btn");
+        const tabContents = document.querySelectorAll(".tab-content");
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabButtons.forEach(b => b.classList.remove("active"));
+                tabContents.forEach(c => c.classList.remove("active"));
+
+                btn.classList.add("active");
+                document.getElementById(btn.dataset.tab)
+                    .classList.add("active");
+            });
+        });
+
+        document.querySelectorAll(".code-toggle").forEach(button => {
+            button.addEventListener("click", () => {
+                const wrapper = button.nextElementSibling;
+
+                if (wrapper.style.display === "block") {
+                    wrapper.style.display = "none";
+                    button.textContent = "Show Code";
+                } else {
+                    wrapper.style.display = "block";
+                    button.textContent = "Hide Code";
+                }
+            });
+        });
+
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code);
+                btn.textContent = "Copied";
+                setTimeout(() => (btn.textContent = "Copy Code"), 1500);
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+
+</body>
+
+</html>
