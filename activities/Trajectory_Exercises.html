@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task - Trajectory Exercises</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Applied Robotics</h1>
+    </header>
+
+    <h1>Task - Trajectory Exercises</h1>
+    <p>
+        Solve the attached exercises on trajectory generation, and log your solution for each one of them.
+    </p>
+
+    <div class="trajectory-grid">
+
+        <section class="trajectory-card">
+            <span class="badge">1</span>
+            <h3>Exercise 1</h3>
+            <p>
+                Given a position graph, identify: where velocity is zero, where velocity is maximum, and where
+                acceleration is positive or negative.
+            </p>
+            <img src="../assets/images/Act_7/exercise1_position_graph.png" alt="Exercise 1" />
+            <p>Solution</p>
+            <img src="../assets/images/Act_7/Exercise_1.png" alt="Exercise 1- Solution" />
+        </section>
+
+        <section class="trajectory-card">
+            <span class="badge">2</span>
+            <h3>Exercise 2</h3>
+            <p>
+                Given a trapezoidal velocity graph, compute total displacement from the area under the curve.
+            </p>
+            <img src="../assets/images/Act_7/exercise2_velocity_area.png" alt="Exercise 2" />
+            <p>Solution</p>
+            <img src="../assets/images/Act_7/Exercise_2.png" alt="Exercise 2- Solution" />
+        </section>
+
+        <section class="trajectory-card">
+            <span class="badge">3</span>
+            <h3>Exercise 3</h3>
+            <p>
+                Given Δq, vmax , and amax, determine whether the motion is trapezoidal or triangular.
+            </p>
+            <p>a) Δq = 5rad, vmax = 2rad/s, amax = 4rad/s²</p>
+            <p>b) Δq = 0.4rad, vmax = 2rad/s, amax = 4rad/s²</p>
+            <p>Solution</p>
+            <img src="../assets/images/Act_7/Exercise_3.png" alt="Exercise 3- Solution" />
+        </section>
+
+        <section class="trajectory-card">
+            <span class="badge">4</span>
+            <h3>Exercise 4</h3>
+            <p>
+                Sketch the position graph corresponding to a given velocity graph.
+            </p>
+            <img src="../assets/images/Act_7/exercise4_velocity_to_sketch.png" alt="Exercise 4" />
+            <p>Solution</p>
+            <img src="../assets/images/Act_7/Exercise_4.png" alt="Exercise 4- Solution" />
+        </section>
+
+        <section class="trajectory-card">
+            <span class="badge">5</span>
+            <h3>Exercise 5</h3>
+            <p>
+                A joint must move Δq = 2 rad, with vmax = 1 rad/s and amax = 4 rad/s².
+            </p>
+
+            <ol>
+                <li><strong>Motion type:</strong> Determine whether the motion is trapezoidal or triangular.</li>
+                <li><strong>Time parameters:</strong> Compute ta, tc, and T.</li>
+                <li><strong>Velocity function:</strong> Write the velocity function q(t) for each phase.</li>
+                <li><strong>Position function:</strong> Write the position function q(t) for each phase, assuming q0 =
+                    0.</li>
+            </ol>
+            <p>Solution</p>
+            <img src="../assets/images/Act_7/Exercise_5.png" alt="Exercise 5- Solution" />
+        </section>
+
+        <section class="trajectory-card">
+            <span class="badge">6</span>
+            <h3>Exercise 6</h3>
+            <p>
+                A joint must move Δq = 3 rad in exactly T = 3 s.
+            </p>
+
+            <p><strong>a) Triangular velocity profile</strong></p>
+            <p>
+                Design a triangular velocity profile for this motion.
+                Compute the peak velocity vp and the required acceleration a.
+            </p>
+
+            <p><strong>b) Trapezoidal velocity profile</strong></p>
+            <p>
+                Design a trapezoidal velocity profile with acceleration time ta = 0.5 s.
+                Compute vmax and amax.
+            </p>
+
+            <p><strong>c) Comparison</strong></p>
+            <p>
+                Compare the peak acceleration of both profiles.
+                Which profile is gentler on the motor? Why?
+            </p>
+            <p>Solution</p>
+            <img src="../assets/images/Act_7/Exercise_6.png" alt="Exercise 6- Solution" />
+        </section>
+
+    </div>
+
+    <a class="back-link" href="../index.html">Back</a>
+
+    <script>
+        const cards = document.querySelectorAll('.trajectory-card');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('show');
+            });
+        }, { threshold: 0.2 });
+        cards.forEach(card => observer.observe(card));
+
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggle.textContent = document.body.classList.contains("dark") ? "Light" : "Dark";
+        });
+    </script>
+
+    <footer>
+        <p>Applied Robotics</p>
+    </footer>
+
+</body>
+</html>
